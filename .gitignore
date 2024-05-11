@@ -57,16 +57,8 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
-# Flask stuff:
-instance/
-.webassets-cache
-
 # Scrapy stuff:
 .scrapy
-
-# Sphinx documentation
-docs/_build/
-build/doctrees
 
 # PyBuilder
 target/
@@ -77,10 +69,7 @@ target/
 # virtual environment
 venv/
 ENV/
+.env
 
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
+# PyCharm project settings
+.idea/
