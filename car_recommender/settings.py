@@ -122,3 +122,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ]
 }
+import os
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
