@@ -28,14 +28,7 @@ class Command(BaseCommand):
         data = pd.read_excel(file_path, engine='openpyxl')
 
         vehicles = []
-        count = 0
         for _, row in data.iterrows():
-            # count += 1
-            # if count > 3:
-            #     Vehicle.objects.bulk_create(vehicles)
-            #     return
-            # print(row['Make'])
-            # print("*******", count)
             vehicle = Vehicle(
                 make=row['Make'],
                 model=row['Model'],
