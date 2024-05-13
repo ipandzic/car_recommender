@@ -32,13 +32,14 @@
             left: 50%;
             width: 10px;
             height: 10px;
-            background-color: #4a5568; /* changed electron color to darker gray */
+            background-color: #7B9FA2;
             border-radius: 50%;
-            animation: orbit 4s linear infinite;
+            animation: orbit 3.33s linear infinite; /* increased speed by around 20% (from 4s to 3.33s) */
+            transition: background-color 1s; /* reduced transition effect to 1s */
         }
 
         .electron.color-change {
-            background-color: #3b82f6; /* blue */
+            background-color: #3b82f6;
         }
 
         @keyframes orbit {
@@ -82,11 +83,12 @@
                     const electron = document.getElementById('electron');
                     electron.classList.add('color-change');
 
-                    // Return the color back after 3 seconds
+                    // Return the color back after 4 seconds
                     setTimeout(() => {
                         electron.classList.remove('color-change');
-                    }, 3000);
+                    }, 4000);
 
+                    // Log the message to be sent
                     console.log('Sending message:', this.message);
                     fetch('http://127.0.0.1:8000/api/chat/', {
                         method: 'POST',
