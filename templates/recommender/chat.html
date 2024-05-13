@@ -32,9 +32,13 @@
             left: 50%;
             width: 10px;
             height: 10px;
-            background-color: #f59e0b;
+            background-color: #4a5568; /* changed electron color to darker gray */
             border-radius: 50%;
-            animation: orbit 2s linear infinite;
+            animation: orbit 4s linear infinite;
+        }
+
+        .electron.color-change {
+            background-color: #3b82f6; /* blue */
         }
 
         @keyframes orbit {
@@ -50,7 +54,7 @@
 <body class="bg-gray-100 flex items-center justify-center h-screen">
     <div class="atom">
         <div class="nucleus"></div>
-        <div class="electron"></div>
+        <div class="electron" id="electron"></div>
     </div>
     <div class="w-full max-w-2xl" x-data="chatApp()">
         <form id="chat-form" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="sendMessage">
@@ -59,7 +63,7 @@
                        class="shadow appearance-none border rounded w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" x-model="message">
             </div>
             <div class="flex items-center justify-center">
-                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     SEND
                 </button>
             </div>
@@ -75,7 +79,15 @@
                 response: '',
 
                 sendMessage() {
-                    console.log('Sending message:', this.message); // Log the message to be sent
+                    const electron = document.getElementById('electron');
+                    electron.classList.add('color-change');
+
+                    // Return the color back after 3 seconds
+                    setTimeout(() => {
+                        electron.classList.remove('color-change');
+                    }, 3000);
+
+                    console.log('Sending message:', this.message);
                     fetch('http://127.0.0.1:8000/api/chat/', {
                         method: 'POST',
                         headers: {
@@ -86,7 +98,7 @@
                     .then(response => response.json())
                     .then(data => {
                         this.response = data.response.replace(/\n/g, '<br>');
-                        this.message = '';  // Clear the input field
+                        this.message = '';
                     })
                     .catch(error => console.error('Error:', error));
                 }
