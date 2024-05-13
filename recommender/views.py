@@ -197,7 +197,7 @@ def format_vehicles_for_chat(vehicles):
     if not vehicles:
         return "I couldn't find any vehicles matching your criteria."
     message = "Here is information from the NHTSA Product Information Catalog Vehicle Listing:\n"
-    for vehicle in vehicles[:20]:
+    for vehicle in vehicles[:100]:
 
         message += (
             f"- {vehicle.make} {vehicle.model}, MPG: {vehicle.city_mpg_for_fuel_type1}, "
@@ -228,13 +228,12 @@ def chat_with_ai(request):
             {
                 "role": "system",
                 "content": "You are a helpful car recommendation assistant. Focus on providing "
-                "information and recommendations related to cars and avoid unrelated "
+                "information and recommendations related to cars and avoid unrelated"
                 "topics.",
             },
             {"role": "assistant", "content": vehicle_message},
             {"role": "user", "content": user_input},
         ],
     )
-
 
     return JsonResponse({"response": completion.choices[0].message.content.strip()})
