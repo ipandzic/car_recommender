@@ -1,9 +1,5 @@
-import os
-
 from django.conf import settings
-from rest_framework import viewsets
-from .models import Car, Vehicle
-from .serializers import CarSerializer
+from .models import Vehicle
 import openai
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
@@ -11,15 +7,11 @@ from rest_framework.decorators import api_view
 from openai import OpenAI
 
 
-class CarViewSet(viewsets.ModelViewSet):
-    queryset = Car.objects.all()
-    serializer_class = CarSerializer
-
-
 def get_recommended_vehicles(user_input):
     # Parsing the user input for keywords and key phrases that help in filtering the Vehicle data.
     queries = {
         'fuel efficient': Vehicle.objects.filter(city_mpg_for_fuel_type1__gte=30),  # Vehicles with good fuel efficiency
+        'bmw': Vehicle.objects.filter(make="BMW"),
         'SUV': Vehicle.objects.filter(vehicle_size_class="SUV"),  # SUV type vehicles
         'electric': Vehicle.objects.filter(fuel_type__icontains='electric'),  # Electric vehicles
         'sedan': Vehicle.objects.filter(vehicle_size_class="Sedan"),  # Sedan type vehicles
@@ -41,8 +33,10 @@ def format_vehicles_for_chat(vehicles):
     if not vehicles:
         return "I couldn't find any vehicles matching your criteria."
     message = "Here is information from the NHTSA Product Information Catalog Vehicle Listing:\n"
-    for vehicle in vehicles[:10]:  # Limit to top 10 results to keep the response manageable
-        message += f"- {vehicle.make} {vehicle.model}, MPG: {vehicle.city_mpg_for_fuel_type1}, Price: ${vehicle.annual_fuel_cost_for_fuel_type1}\n"
+    for vehicle in vehicles[:10]:
+        message += f"- {vehicle.make} {vehicle.model}, MPG: {vehicle.city_mpg_for_fuel_type1}, " \
+                   f"Price: ${vehicle.annual_fuel_cost_for_fuel_type1}, Engine: {vehicle.engine_descriptor}, " \
+                   f"Fuel Type: {vehicle.fuel_type}, CO2 Emissions: {vehicle.co2_tailpipe_for_fuel_type1} g/km\n"
     return message
 
 
