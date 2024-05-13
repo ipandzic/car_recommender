@@ -5,8 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Recommendation Chat</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .atom {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+        }
+
+        .nucleus {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background-color: #3b82f6;
+            border-radius: 50%;
+        }
+
+        .electron {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background-color: #f59e0b;
+            border-radius: 50%;
+            animation: orbit 2s linear infinite;
+        }
+
+        @keyframes orbit {
+            0% {
+                transform: rotate(0deg) translateX(40px) translateY(-40px);
+            }
+            100% {
+                transform: rotate(360deg) translateX(40px) translateY(-40px);
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="atom">
+        <div class="nucleus"></div>
+        <div class="electron"></div>
+    </div>
     <div class="w-full max-w-2xl" x-data="chatApp()">
         <form id="chat-form" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="sendMessage">
             <div class="mb-4">
@@ -14,7 +59,7 @@
                        class="shadow appearance-none border rounded w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" x-model="message">
             </div>
             <div class="flex items-center justify-center">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     SEND
                 </button>
             </div>
