@@ -24,6 +24,11 @@
             height: 20px;
             background-color: #3b82f6;
             border-radius: 50%;
+            transition: background-color 1s;
+        }
+
+        .nucleus.color-change {
+            background-color: #7B9FA2;
         }
 
         .electron {
@@ -32,14 +37,14 @@
             left: 50%;
             width: 10px;
             height: 10px;
-            background-color: #7B9FA2;
+            background-color: #7B9FA2; 
             border-radius: 50%;
-            animation: orbit 3.33s linear infinite; /* increased speed by around 20% (from 4s to 3.33s) */
-            transition: background-color 1s; /* reduced transition effect to 1s */
+            animation: orbit 3.33s linear infinite;
+            transition: background-color 1s; 
         }
 
         .electron.color-change {
-            background-color: #3b82f6;
+            background-color: #3b82f6; 
         }
 
         @keyframes orbit {
@@ -54,7 +59,7 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
     <div class="atom">
-        <div class="nucleus"></div>
+        <div class="nucleus" id="nucleus"></div>
         <div class="electron" id="electron"></div>
     </div>
     <div class="w-full max-w-2xl" x-data="chatApp()">
@@ -82,13 +87,15 @@
                 sendMessage() {
                     const electron = document.getElementById('electron');
                     electron.classList.add('color-change');
+                    const nucleus = document.getElementById('nucleus');
+                    nucleus.classList.add('color-change');
 
                     // Return the color back after 4 seconds
                     setTimeout(() => {
                         electron.classList.remove('color-change');
+                        nucleus.classList.remove('color-change');
                     }, 4000);
 
-                    // Log the message to be sent
                     console.log('Sending message:', this.message);
                     fetch('http://127.0.0.1:8000/api/chat/', {
                         method: 'POST',
