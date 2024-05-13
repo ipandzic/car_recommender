@@ -47,6 +47,12 @@
             background-color: #3b82f6;
         }
 
+        #response {
+            width: 100%; /* width of response box */
+            height: 35vh; /* height is now 80% of the viewport height */
+            overflow-y: auto; /* enable vertical scroll if content exceeds the height of the box */
+        }
+
         @keyframes orbit {
             0% {
                 transform: rotate(0deg) translateX(40px) translateY(-40px);
