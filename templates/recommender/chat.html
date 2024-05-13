@@ -37,14 +37,14 @@
             left: 50%;
             width: 10px;
             height: 10px;
-            background-color: #7B9FA2; 
+            background-color: #7B9FA2;
             border-radius: 50%;
             animation: orbit 3.33s linear infinite;
-            transition: background-color 1s; 
+            transition: background-color 1s;
         }
 
         .electron.color-change {
-            background-color: #3b82f6; 
+            background-color: #3b82f6;
         }
 
         @keyframes orbit {
@@ -106,11 +106,24 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        this.response = data.response.replace(/\n/g, '<br>');
+                        const text = data.response.replace(/\n/g, '<br>');
+                        this.typeOutResponse(text, 4000);  // Type out response over 4 seconds
                         this.message = '';
                     })
                     .catch(error => console.error('Error:', error));
-                }
+                },
+
+                typeOutResponse(text, duration) {
+                    const minLengthBetweenTypes = duration / text.length;  // Duration divided by text length to distribute typing effect over total duration
+                    let typedText = '';  // Variable to store text as it is typed out
+                    for (let i = 0; i < text.length; i++) {
+                        setTimeout(() => {
+                            typedText += text.charAt(i);  // Add character to typed text
+                            this.response = typedText + (i === text.length - 1 ? '' : '_');  // Show "_" if not at last character
+                        }, minLengthBetweenTypes * i);
+                    }
+                },
+
             }
         }
     </script>
